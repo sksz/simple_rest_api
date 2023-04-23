@@ -32,7 +32,43 @@ app.options("/todos", (req, res, next) => {
     console.log('Replying to OPTIONS request');
     setHeaders(res);
     res.json();
-})
+});
+
+app.put("/todos/:id", (req, res) => {
+    var id = req.params.id;
+    console.log(`Updating Todo entry #${id}`);
+
+    var todo = req.body;
+    console.log(todo);
+
+    setHeaders(res);
+
+    for (var i = 0; i < todos.length; i++) {
+        if (todos[i].id == id) {
+            todos[i].title = todo.title;
+            todos[i].completed = todo.completed;
+
+            todo = todos[i];
+
+            break;
+        }
+    }
+
+    res.json(todo);
+});
+
+app.delete("/todos/:id", (req, res, next) => {
+    var id = req.params.id;
+    console.log(`Removing Todo entry #${id}`);
+
+    setHeaders(res);
+
+    todos = todos.filter((todo) => {
+        return todo.id != id;
+    });
+
+    res.json({});
+});
 
 app.post("/todos", (req, res, next) => {
     console.log('Adding element to Todo collection');
