@@ -34,6 +34,12 @@ app.options("/todos", (req, res, next) => {
     res.json();
 });
 
+app.options("/todos/:id", (req, res, next) => {
+    console.log('Replying to OPTIONS request');
+    setHeaders(res);
+    res.json();
+});
+
 app.put("/todos/:id", (req, res) => {
     var id = req.params.id;
     console.log(`Updating Todo entry #${id}`);
